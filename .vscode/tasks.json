@@ -10,7 +10,7 @@
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-fexec-charset=GBK"//解决中文乱码问题
+                "-fexec-charset=GBK",//解决中文乱码问题
             ],
             "options": {
                 "cwd": "${fileDirname}"

@@ -1,36 +1,65 @@
 #include <iostream>
-#include <unordered_map>
-#include <algorithm>
-using namespace std;
 
-bool canConstruct(std::string ransomNote, std::string magazine) {
-    unordered_map<char, int> r;
-    unordered_map<char, int> m;
-    for(int i = 0; i < ransomNote.length(); i++)
-    {
-        if(r.find(ransomNote[i]) == r.end())     r.insert(make_pair(ransomNote[i], 1));
-        else     r[ransomNote[i]]++;
-    }
+class ListNode
+{
+public:
+	ListNode(int v, ListNode* l = nullptr, ListNode* r = nullptr) : val(v), left(l), right(r){};//有参构造
+	ListNode(){};//默认构造
+	int val;
+	ListNode* left;
+	ListNode* right;
+};
 
-    for(int i = 0; i < magazine.length(); i++)
-    {
-        if(m.find(magazine[i]) == m.end())      m.insert(make_pair(magazine[i], 1));
-        else    m[magazine[i]]++;
-    }
+//添加到链表前端
+void pushLinkedListFront(ListNode* &leftHead,int val)
+{
+	if(leftHead->left != nullptr) return;
+	ListNode* newLeftHead = new ListNode(val, nullptr, leftHead);
+	leftHead->left = newLeftHead;
+	leftHead = newLeftHead;
+}
 
-    for(auto it = r.begin(); it != r.end(); it++)
-    {
-        if(m.find(it->first) == m.end() || m[it->first] < it->second)
-        {
-            return false;
-        }
-    }
-    return true;
+//添加到链表右端
+void pushLinkedListBack(ListNode* &rightHead,int val)
+{
+	if(rightHead->right != nullptr) return;
+	ListNode* newRightHead = new ListNode(val, rightHead, nullptr);
+	rightHead->right = newRightHead;
+	rightHead = newRightHead;
+}
+
+//正向遍历输出
+void printFromFront(ListNode* leftHead)
+{
+	if(leftHead->left != nullptr) return;
+	while(leftHead != nullptr)
+	{
+		std::cout<< leftHead->val << " ";
+		leftHead = leftHead->right;
+	}
+	std::cout << std::endl;
+}
+
+//反向遍历输出
+void printFromBack(ListNode* rightHead)
+{
+	if(rightHead->right != nullptr) return;
+	while(rightHead != nullptr)
+	{
+		std::cout<< rightHead->val << " ";
+		rightHead = rightHead->left;
+	}
+	std::cout << std::endl;
 }
 
 int main()
 { 
-    std::cout << canConstruct("a", "b");
+    ListNode* leftNode = new ListNode(0);
+	printFromBack(leftNode);
+	printFromFront(leftNode);
+	pushLinkedListFront(leftNode,10);
+	printFromFront(leftNode);
+	printFromBack()
 	system("pause");
 	return 0;	
 }

@@ -3,7 +3,8 @@
 class ListNode
 {
 public:
-    ListNode(int v, ListNode* nex = nullptr) : val(v), next(nex){};
+    ListNode(int v, ListNode* nex = nullptr) : val(v), next(nex){};//有参构造
+    ListNode(){};//默认构造
     int val;
     ListNode * next;
 };
@@ -26,7 +27,7 @@ void printLinkedList(ListNode* head)
     std::cout << std::endl;
 }
 
-//反转链表
+//反转链表（迭代）
 void reverseLinkedList(ListNode* &head)
 {
     ListNode* temp = nullptr;
@@ -40,10 +41,20 @@ void reverseLinkedList(ListNode* &head)
     head = temp;
 }
 
+//反转链表（递归）
+ListNode* reverseList(ListNode* &head)
+{
+    if(head->next == nullptr) return head;
+    ListNode* newHead = reverseList(head->next);
+    head->next->next = head;
+    head->next = nullptr;
+    return newHead;
+}
+
 //反向打印链表（递归）
 void printReserveLinkedList(ListNode* head)
 {
-    if(head == nullptr) return;
+    if(head->next == nullptr) std::cout << head->val;
     printLinkedList(head->next);
     std::cout << head->val;
 }
@@ -51,15 +62,9 @@ void printReserveLinkedList(ListNode* head)
 int main()
 {
     ListNode* head = new ListNode(0);
-    printLinkedList(head);
-
     addNode(head, 2);
-    printLinkedList(head);
-
-    reverseLinkedList(head);
-    printLinkedList(head);
-
-    printReserveLinkedList(head);
+    addNode(head, 3);
+    printLinkedList(reverseList(head));
     system("pause");
     return 0;
 }
