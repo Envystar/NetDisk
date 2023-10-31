@@ -35,7 +35,7 @@ public:
     {
         return this->m_Head == NULL;
     }
-//private:
+private:
     //链表节点
     class ListNode
     {
@@ -52,13 +52,6 @@ public:
 int main()
 {
     Stack<int> s;
-    s.pop();
-    std::cout << s.empty();
-    s.push(10);
-    std::cout << s.empty();
-    s.pop();
-    s.pop();
-    s.pop();
     system("pause");
     return 0;
 }
