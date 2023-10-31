@@ -55,11 +55,15 @@ void printFromBack(ListNode* rightHead)
 int main()
 { 
     ListNode* leftNode = new ListNode(0);
+	ListNode* rightNode = new ListNode(1);
+	leftNode->right = rightNode;
+	rightNode->left = leftNode;
+	
 	printFromBack(leftNode);
 	printFromFront(leftNode);
 	pushLinkedListFront(leftNode,10);
 	printFromFront(leftNode);
-	printFromBack()
+	printFromBack(rightNode);
 	system("pause");
 	return 0;	
 }
