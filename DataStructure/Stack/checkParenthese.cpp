@@ -3,7 +3,7 @@
 #include <stack>
 
 //检查括号的匹配性 
-bool checkForBalancedParenthese(std::string str)
+bool checkForBalancedParenthese(const std::string str)
 {
     std::stack<char> s;
     for(int i = 0; i < str.length(); i++)
