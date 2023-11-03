@@ -59,6 +59,11 @@
         "vector": "cpp",
         "xhash": "cpp",
         "stack": "cpp",
-        "deque": "cpp"
+        "deque": "cpp",
+        "array": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "string": "cpp",
+        "stdlib.h": "c"
     }
 }
