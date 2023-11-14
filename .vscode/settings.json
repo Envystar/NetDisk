@@ -64,6 +64,7 @@
         "ranges": "cpp",
         "span": "cpp",
         "string": "cpp",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "queue": "cpp"
     }
 }
