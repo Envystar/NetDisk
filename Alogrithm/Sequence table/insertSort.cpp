@@ -1,5 +1,6 @@
 #include <iostream>
 
+//插入排序
 void insertSort(int a[], int n)
 {
     for(int i = 1; i < n; ++i)
