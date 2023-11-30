@@ -66,5 +66,6 @@
         "string": "cpp",
         "stdlib.h": "c",
         "queue": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
