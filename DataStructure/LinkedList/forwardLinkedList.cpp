@@ -16,6 +16,34 @@ void addNode(ListNode * &head, int val)
     head = newHead;
 }
 
+//在任意位置添加节点
+void addNode(ListNode *&head, int pos, int val)
+{
+    if(pos == 0)
+    {
+        addNode(head, val);
+        return;
+    }
+    else
+    {
+        int temp = 1;
+        ListNode* index = head;
+        while(index != nullptr && temp < pos)//遍历到所在位置的前一个位置
+        {
+            ++temp;
+            index = index->next;
+        }
+
+        if(index == nullptr)    return;//指定节点错误，直接返回
+        else
+        {
+            ListNode* newNode = new ListNode(val, index->next);//创建新节点
+            index->next = newNode;//指向新节点
+        }
+
+    }  
+}
+
 //打印链表
 void printLinkedList(ListNode* head)
 {
@@ -64,7 +92,8 @@ int main()
     ListNode* head = new ListNode(0);
     addNode(head, 2);
     addNode(head, 3);
-    printLinkedList(reverseList(head));
+    addNode(head, 3, 5);
+    printLinkedList(head);
     system("pause");
     return 0;
 }
