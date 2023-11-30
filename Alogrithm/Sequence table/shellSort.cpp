@@ -1,5 +1,6 @@
 #include <iostream> 
 
+//希尔排序
 void shellSort(int a[], int n)
 {
     for(int i = n / 2; i > 0; i /= 2)//定义增量为n/2, 每次增量变为原来的1/2
