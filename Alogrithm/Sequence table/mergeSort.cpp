@@ -1,6 +1,6 @@
 #include <iostream>
 
-//归并
+//归并排序
 void merge(int a[], int tempArr[], int left, int mid, int right)
 {
     int lpos = left, rpos = mid + 1, index = left;;//标记左右半区第一个未排序的元素 以及临时数组索引
