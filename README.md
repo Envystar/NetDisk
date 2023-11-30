@@ -166,8 +166,8 @@ void mergeSort(int a[], int n)
 
 **例子：不关注学生成绩，关注学生排名**
 
-| 原数据         | **1000** | **500** | **9999** | **200** | **356** | **200** |
-| -------------- | :------- | ------- | -------- | ------- | ------- | ------- |
+| 原数据               | **1000** | **500** | **9999** | **200** | **356** | **200** |
+| -------------------- | :------------- | ------------- | -------------- | ------------- | ------------- | ------------- |
 | **离散处理后** | **3**    | **2**   | **4**    | **0**   | **1**   | **0**   |
 
 **一般流程：**
@@ -186,8 +186,6 @@ tmp.erase(std::unique(tmp.begin(), tmp.end()), tmp.end());//去重
 for (int i = 0; i < arr.size(); ++i)
     arr[i] = std::lower_bound(tmp.begin(), tmp.end(), arr[i]) - tmp.begin();
 ```
-
-
 
 ## 前缀和
 
@@ -209,11 +207,11 @@ for (int i = 0; i < arr.size(); ++i)
 
 ### 定义法
 
-利用素数的定义进行判定
+**利用素数的定义进行判定**
 
 #### 定义判定
 
-遍历2到n-1；判断是否能被整除
+**遍历2到n-1；判断是否能被整除**
 
 ```c++
 bool isPrime(int n)
@@ -229,7 +227,7 @@ bool isPrime(int n)
 
 #### 定义判定改法
 
-遍历到sqrt()就可以，由于sqrt()计算较慢，可转化为i * i <=  n; 但可能导致越界，进入死循环，改为 i <= n / i;
+**遍历到sqrt()就可以，由于sqrt()计算较慢，可转化为i * i <=  n; 但可能导致越界，进入死循环，改为 i <= n / i;**
 
 ```c++
 bool isPrime(int n)
@@ -245,7 +243,7 @@ bool isPrime(int n)
 
 ### 素数筛
 
-bitset `<nums>` name;类似于bool数组，默认值为0，详见[std::bitset - cppreference.com](https://zh.cppreference.com/w/cpp/utility/bitset)
+**bitset `<nums>` name;类似于bool数组，默认值为0，详见[std::bitset - cppreference.com](https://zh.cppreference.com/w/cpp/utility/bitset)**
 
 #### 朴素筛法
 
@@ -279,9 +277,9 @@ int main()
 
 #### 埃氏筛法
 
-不用再判断是否为素数，前面的素数已经判定过，并记录在bitset中
+**不用再判断是否为素数，前面的素数已经判定过，并记录在bitset中**
 
-缺点：一个合数可能同时被两个素数筛
+**缺点：一个合数可能同时被两个素数筛**
 
 ```c++
 const int maxn = 1e6 + 10;
@@ -300,9 +298,10 @@ for (int i = 2; i <= N / i; ++i)
 
 #### 欧拉筛法
 
-解决一个素数被两个素数筛掉，效率低的问题
+**解决一个素数被两个素数筛掉，效率低的问题**
 
 ```c++
+
 const int maxn = 1e6 + 10;
 bitset<maxn> prime;//0表示素数，1表示合数
 int primes[maxn], pp = 0;//建立一个素数表，和一个遍历指针
@@ -326,3 +325,71 @@ for (int i = 2; i <= N; ++i)//遍历所有值
 }
 //pp即为素数的个数
 ```
+
+## 快速幂
+
+**快速幂，二进制取幂（Binary Exponentiation，也称平方法），是一个在 $O(logn)$ 的时间内计算 $a^n$ 的小技巧，而暴力的计算需要 $O(n)$ 的时间。**
+
+### 数的快速幂
+
+```C++
+//核心代码
+long long qucikPow(long long a, long long b)//a为底数，b为指数(a^b)
+{
+    long long res = 1;
+    while(b > 0)
+    {
+         if(b & 1)   res *= a;//b为奇数，先乘a
+        a *= a;
+        b >>= 1;
+    }
+    return res;
+}
+```
+
+### 矩阵快速幂
+
+**将快速幂的方法用于矩阵上，用于解决矩阵的一些问题，例如求斐波那契数列某项值**
+
+```C++
+//核心代码
+#include <cstring> // 添加头文件以使用 memset 函数
+const int s = 2; // 将矩阵大小定义为常量
+
+class matrix
+{
+public:
+    long long m[s][s];
+    matrix() { std::memset(m, 0, sizeof(m));} 
+};
+
+matrix operator*(const matrix &x, const matrix &y)
+{
+    matrix res;
+    for (int i = 0; i < s; ++i)
+    {
+        for (int j = 0; j < s; ++j)
+        {
+            for (int k = 0; k < s; ++k)
+            {
+                res.m[i][j] += x.m[i][k] * y.m[k][j];
+            }
+        }
+    }
+    return res;
+}
+
+matrix matrixQuickPow(matrix base, int b)
+{
+    matrix res;
+    for(int i = 0; i < s; ++i)   res.m[i][i] = 1;
+    while(b > 0)
+    {
+        if(b & 1)   res = res * base;
+        base = base * base;
+        b >>= 1;
+    }
+    return res;
+}
+```
+
