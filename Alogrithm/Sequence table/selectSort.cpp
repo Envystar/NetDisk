@@ -1,5 +1,6 @@
 #include <iostream>
 
+//选择排序
 void selectSort(int a[], int n)
 {
     for(int i = 0; i < n; ++i)
