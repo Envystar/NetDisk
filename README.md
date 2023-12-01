@@ -156,6 +156,41 @@ void mergeSort(int a[], int n)
 
 ```
 
+### 快速排序
+
+**快排思路：选定pivot通过划分数组使pivot左侧所有元素都小于等于它，右侧所有元素都大于它。然后对pivot的左侧和右侧分别递归进行划分调整，直至当前区间不用再调整(left >= right)**
+
+**一般步骤：**
+
+1. **选择基准元素，一般选择首尾元素（示例代码选择尾元素）**
+2. **将较小（大）元素放基准元素前边，其余放后边**
+3. **具体实现，取快慢双指针，快指针一直移动到尾元素，若遇到指向的元素比基准元素小（大）的元素，则交换快慢指针对应元素，慢指针向前移动一位，快指针仍然移动**
+4. **循环结束后，交换基准元素和慢指针对应元素和指针**
+
+```C++
+//核心代码
+//快速排序(参数：数组最小和最大下标，数组本身)
+void quickSort(int left, int right, int a[])
+{
+    if(left >= right) return;
+    else
+    {
+        int low = left, pivot = right;//选定最右侧元素
+        int(fast = left; i < pivote; ++fast)
+        {
+            if(a[fast] < a[pivot])//找到比pivot指向小的元素
+            {
+                std::swap(a[fast], a[low++]);
+            }
+        }
+        std::swap(a[low], a[pivot]);//对换
+        pivot = low;
+        quickSort(left, pivot - 1, a);
+        quickSort(pivot + 1, right, a);
+    }
+}
+```
+
 ## 二分
 
 ## 离散化
@@ -191,13 +226,138 @@ for (int i = 0; i < arr.size(); ++i)
 
 # 字符串
 
-## KMP快速查找算法
+## KMP算法
+
+**通过防止重复匹配，来解决暴力匹配, 时间复杂度最坏可达 $O(n^2)$ 的问题，使时间复杂度降到 $O(n)$ **
+
+1. **求next数组（或称prefixTable前缀表），即子串对应的最长公共前后缀数组**
+
+   ```c++
+   //求next数组
+   void prefixFunction(std::string s, int next[]) 
+   {
+     int n = (int)s.length();
+     next[0] = 0;
+     for (int i = 1; i < n; i++) 
+     {
+       int j = next[i - 1];    //获取前一个子串的最长公共前后缀
+       //如果新增字符不能满足(一直寻找知道找到或者到j为0)
+       while (j > 0 && s[i] != s[j])   j = next[j - 1];    //利用KMP和DP的思想
+       if (s[i] == s[j])  j++;  //找到了就++赋值，没找到就直接为j(0)
+       next[i] = j;
+     }
+   }
+   ```
+
+2. **进行字符串匹配**
+
+   ```C++
+   //字符串匹配
+   std::vector<int> kmpSearch(const std::string str, const std::string substr, const int next[])
+   {
+       std::vector<int> res;
+       for(int i = 0, j = 0; i < (int)str.size() - (int)substr.size() + 1; ++i)
+       {
+           if(j == (int)substr.size() - 1 && str[i] == substr[j]) //完全匹配
+           {
+               res.push_back(i - j);//记录匹配到子串起始位置
+               j = next[j - 1];    
+               continue;
+           }
+           if(str[i] == substr[j]) ++j;//匹配到一个字符就++
+           else //没有匹配到就回到next[j - 1]位置
+           {
+               if(j != 0)  j = next[j - 1]; 
+           }
+       }
+       return res; 
+   }
+   ```
 
 # 栈
 
 # 队列
 
 # 树
+
+## 线段树
+
+**线段树可以在 $O(log n)$ 的时间复杂度内实现单点修改、区间修改、区间查询（区间求和，求区间最大值，求区间最小值)等操作。**
+
+**线段树可以用树状数组来表示**
+
+```C++
+//构建线段树
+void buildTree(int a[], int tree[], int node, int start, int end)//start和end表示区间[start, end]
+{
+    if(start == end)//当start等于end时  
+    {
+        tree[node] = a[start];//更新根节点
+        return;//返回
+    }
+    else
+    {
+        int mid = (start + end)/2;//取中
+        int leftNode = node * 2 + 1;//定位左节点
+        int rightNode = node * 2 + 2;//定位右节点
+        buildTree(a, tree, leftNode, start, mid);//计算左节点对应的线段和
+        buildTree(a, tree, rightNode, mid + 1, end);//计算右节点对应的线段和
+        tree[node] = tree[leftNode] + tree[rightNode];//更新根节点
+    }
+}
+```
+
+```C++
+//修改线段树(index表示原数组要改值索引，val表示要改的值，即对a[index] = val;后的修改)
+void updateTree(int a[], int tree[], int node, int start, int end, int index, int val)
+{
+    if(start == end)
+    {
+        tree[node] = val;//更新节点值
+        return;
+    }
+    else
+    {
+        int mid = (start + end)/2;//取中
+        int leftNode = node * 2 + 1;//定位左节点
+        int rightNode = node * 2 + 2;//定位右节点
+        if(index <= mid)
+        {
+            updateTree(a, tree, leftNode, start, mid, index, val);//向左查询
+        }
+        else
+        {
+             updateTree(a, tree, rightNode, mid + 1, end, index, val);//向右查询
+        }
+        tree[node] = tree[leftNode] + tree[rightNode];//更新节点
+      
+    }
+}
+```
+
+```C
+//查询线段树，即求区间和
+int queryTree(int a[], int tree[], int node, int start, int end, int L, int R)//求[L, R]的区间和
+{
+    if(L == start && R == end)
+    {
+        return tree[node];
+    }
+    else if(R < start || L > end)
+    {
+        return 0;
+    }
+    else
+    {
+        int mid = (start + end) / 2;//取中间值
+        int leftNode = node * 2 + 1;//定位左节点
+        int rightNode = node * 2 + 2;//定位右节点
+        int queryLeftTree = queryTree(a, tree, leftNode, start, mid, L, mid);
+        int queryRightTree = queryTree(a, tree, rightNode, mid + 1, end, mid + 1, R);
+        return queryLeftTree + queryRightTree;
+    }
+}
+```
 
 # 图
 
@@ -211,7 +371,7 @@ for (int i = 0; i < arr.size(); ++i)
 
 #### 定义判定
 
-**遍历2到n-1；判断是否能被整除**
+**遍历2到n-1；判断是否能被整除, 时间复杂度 $O(n^2)$ **
 
 ```c++
 bool isPrime(int n)
@@ -227,7 +387,7 @@ bool isPrime(int n)
 
 #### 定义判定改法
 
-**遍历到sqrt()就可以，由于sqrt()计算较慢，可转化为i * i <=  n; 但可能导致越界，进入死循环，改为 i <= n / i;**
+**遍历到sqrt()就可以，由于sqrt()计算较慢，可转化为i * i <=  n; 但可能导致越界，进入死循环，改为 `i <= n / i;`, 时间复杂度为$O(nlogn)$ **
 
 ```c++
 bool isPrime(int n)
@@ -243,7 +403,7 @@ bool isPrime(int n)
 
 ### 素数筛
 
-**bitset `<nums>` name;类似于bool数组，默认值为0，详见[std::bitset - cppreference.com](https://zh.cppreference.com/w/cpp/utility/bitset)**
+**`bitset <nums> name;`类似于bool数组，默认值为0，详见[std::bitset - cppreference.com](https://zh.cppreference.com/w/cpp/utility/bitset)**
 
 #### 朴素筛法
 
@@ -277,7 +437,7 @@ int main()
 
 #### 埃氏筛法
 
-**不用再判断是否为素数，前面的素数已经判定过，并记录在bitset中**
+**不用再判断是否为素数，前面的素数已经判定过，并记录在bitset中,  时间复杂度 $O(nloglogn)$ **
 
 **缺点：一个合数可能同时被两个素数筛**
 
@@ -298,7 +458,7 @@ for (int i = 2; i <= N / i; ++i)
 
 #### 欧拉筛法
 
-**解决一个素数被两个素数筛掉，效率低的问题**
+**解决一个素数被两个素数筛掉，效率低的问题, 时间复杂度为 $O(n)$ **
 
 ```c++
 
@@ -392,4 +552,3 @@ matrix matrixQuickPow(matrix base, int b)
     return res;
 }
 ```
-
