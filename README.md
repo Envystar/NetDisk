@@ -172,21 +172,17 @@ void mergeSort(int a[], int n)
 //快速排序(参数：数组最小和最大下标，数组本身)
 void quickSort(int left, int right, int a[])
 {
-    if(left >= right) return;
-    else
+    if(left < right)
     {
         int low = left, pivot = right;//选定最右侧元素
-        int(fast = left; i < pivote; ++fast)
+        for(int fast = left; fast < pivot; ++fast)
         {
             if(a[fast] < a[pivot])//找到比pivot指向小的元素
-            {
                 std::swap(a[fast], a[low++]);
-            }
         }
         std::swap(a[low], a[pivot]);//对换
-        pivot = low;
-        quickSort(left, pivot - 1, a);
-        quickSort(pivot + 1, right, a);
+        quickSort(left, low - 1, a);
+        quickSort(low + 1, right, a);
     }
 }
 ```
@@ -360,6 +356,81 @@ int queryTree(int a[], int tree[], int node, int start, int end, int L, int R)//
 ```
 
 # 图
+
+## BFS广度优先搜索
+
+**BFS的全称是Breadth-First Search，一般用queue实现**
+
+```C++
+//BFS算法（广度优先搜索）
+std::map<char, std::vector<char>> graph = 
+{
+    {'A', {'B','C'}},
+    {'B', {'A', 'C', 'D'}},
+    {'C', {'A', 'B', 'D', 'E'}},
+    {'D', {'B', 'C', 'E', 'F'}},
+    {'E', {'C', 'D'}},
+    {'F', {'D'}}
+};
+
+//对图graph进行搜索
+//BFS算法（广度优先搜索）
+void BFS(std::map<char, std::vector<char>> graph, char begin)
+{
+    std::queue<char> q;
+    q.push(begin); // 将起始节点放入队列
+    std::set<char> seen;//对已查找过的进行标记
+    seen.insert(begin); // 将起始节点放入集合
+    while(q.size() > 0)
+    {
+        char vertex = q.front();//取队首元素
+        q.pop();//出队
+        for(int i = 0; i < (int)graph[vertex].size(); ++i)
+        {
+            if(seen.find(graph[vertex][i]) == seen.end())//如果没有标记
+            {
+                q.push(graph[vertex][i]);//入队
+                seen.insert(graph[vertex][i]);//进行标记
+            }   
+        }
+        std::cout << vertex << " ";
+    }
+}
+```
+
+## DFS深度优先搜索
+
+**BFS的全称是Depth-First Search，一般用stack实现**
+
+```C++
+//DFS算法（深度优先搜索）
+std::map<char, char> DFS(std::map<char, std::vector<char>> graph, char begin)
+{
+    std::stack<char> s;
+    s.push(begin); // 将起始节点放入栈
+    std::set<char> seen;
+    seen.insert(begin); // 将起始节点放入集合
+    std::map<char, char> parents = {{begin, '0'}};
+    while(s.size() > 0)
+    {
+        char vertex = s.top();
+        s.pop();
+        for(int i = 0; i < (int)graph[vertex].size(); ++i)
+        {
+            if(seen.find(graph[vertex][i]) == seen.end())
+            {
+                s.push(graph[vertex][i]);
+                parents[graph[vertex][i]] = vertex;
+                seen.insert(graph[vertex][i]);
+            }
+        }
+        std::cout << vertex << " ";
+    }
+    return parents;//返回的是映射树(value是key的前一个结点)
+}
+```
+
+
 
 # 数论
 
