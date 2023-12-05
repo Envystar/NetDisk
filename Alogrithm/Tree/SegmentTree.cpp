@@ -50,7 +50,7 @@ void updateTree(int a[], int tree[], int node, int start, int end, int index, in
 //查询线段树，即求区间和
 int queryTree(int a[], int tree[], int node, int start, int end, int L, int R)//求[L, R]的区间和
 {
-    if(L == start && R == end)
+    if(L <= start && R <= end)
     {
         return tree[node];
     }
@@ -63,8 +63,8 @@ int queryTree(int a[], int tree[], int node, int start, int end, int L, int R)//
         int mid = (start + end) / 2;//取中间值
         int leftNode = node * 2 + 1;//定位左节点
         int rightNode = node * 2 + 2;//定位右节点
-        int queryLeftTree = queryTree(a, tree, leftNode, start, mid, L, mid);
-        int queryRightTree = queryTree(a, tree, rightNode, mid + 1, end, mid + 1, R);
+        int queryLeftTree = queryTree(a, tree, leftNode, start, mid, L, R);
+        int queryRightTree = queryTree(a, tree, rightNode, mid + 1, end, L, R);
         return queryLeftTree + queryRightTree;
     }
 }
@@ -79,7 +79,7 @@ int main()
     for(int i = 0; i < 15; ++i)     std::cout << tree[i] << " ";
 
     std::cout << '\n';
-    std::cout << queryTree(a, tree, 0, 0, n - 1, 1, 5);
+    std::cout << queryTree(a, tree, 0, 0, n - 1, 5, 5);
     std::cout << '\n';
     
     updateTree(a, tree, 0, 0, n - 1, 4, 6);
