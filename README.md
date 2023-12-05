@@ -218,7 +218,13 @@ for (int i = 0; i < arr.size(); ++i)
     arr[i] = std::lower_bound(tmp.begin(), tmp.end(), arr[i]) - tmp.begin();
 ```
 
-## 前缀和
+## 前缀和与差分·
+
+### 一维形式
+
+### 二维形式
+
+### 三维形式
 
 # 字符串
 
@@ -335,7 +341,7 @@ void updateTree(int a[], int tree[], int node, int start, int end, int index, in
 //查询线段树，即求区间和
 int queryTree(int a[], int tree[], int node, int start, int end, int L, int R)//求[L, R]的区间和
 {
-    if(L == start && R == end)
+    if(L <= start && R <= end)
     {
         return tree[node];
     }
@@ -348,8 +354,8 @@ int queryTree(int a[], int tree[], int node, int start, int end, int L, int R)//
         int mid = (start + end) / 2;//取中间值
         int leftNode = node * 2 + 1;//定位左节点
         int rightNode = node * 2 + 2;//定位右节点
-        int queryLeftTree = queryTree(a, tree, leftNode, start, mid, L, mid);
-        int queryRightTree = queryTree(a, tree, rightNode, mid + 1, end, mid + 1, R);
+        int queryLeftTree = queryTree(a, tree, leftNode, start, mid, L, R);
+        int queryRightTree = queryTree(a, tree, rightNode, mid + 1, end, L, R);
         return queryLeftTree + queryRightTree;
     }
 }
@@ -374,7 +380,7 @@ std::map<char, std::vector<char>> graph =
 };
 
 //对图graph进行搜索
-//BFS算法（广度优先搜索）
+//核心代码
 void BFS(std::map<char, std::vector<char>> graph, char begin)
 {
     std::queue<char> q;
@@ -404,6 +410,17 @@ void BFS(std::map<char, std::vector<char>> graph, char begin)
 
 ```C++
 //DFS算法（深度优先搜索）
+std::map<char, std::vector<char>> graph = 
+{
+    {'A', {'B','C'}},
+    {'B', {'A', 'C', 'D'}},
+    {'C', {'A', 'B', 'D', 'E'}},
+    {'D', {'B', 'C', 'E', 'F'}},
+    {'E', {'C', 'D'}},
+    {'F', {'D'}}
+};
+//对图graph进行搜索
+//核心代码
 std::map<char, char> DFS(std::map<char, std::vector<char>> graph, char begin)
 {
     std::stack<char> s;
@@ -427,10 +444,56 @@ std::map<char, char> DFS(std::map<char, std::vector<char>> graph, char begin)
         std::cout << vertex << " ";
     }
     return parents;//返回的是映射树(value是key的前一个结点)
-}
+}//映射树用于找狭义上的最短路（各个节点连线的距离相等）
 ```
 
+## dijkstra最短路算法
 
+**用途：解决带非负权图单源最短路问题**
+
+**利用priority_queue优先队列来实现**
+
+```c++
+//dijkstra最短路算法
+std::map<char, std::vector<std::pair<char, int>>> graph = 
+{
+    {'A', {{'B', 5}, {'C', 1}}},
+    {'B', {{'A', 5}, {'C', 2}, {'D', 1}}},
+    {'C', {{'A', 1}, {'B', 2}, {'D', 4}, {'E', 8}}},
+    {'D', {{'B', 1}, {'C', 4}, {'E', 3}, {'F', 6}}},
+    {'E', {{'C', 8}, {'D', 3}}},
+    {'F', {{'D', 6}}}
+};
+//对图graph的两节点查找
+//利用仿函数重载,用于比较pair，距离越小优先级越高
+struct myCompare
+{
+    bool operator()(const std::pair<char, int>& a, const std::pair<char, int>& b) 
+    {
+        return a.second > b.second;
+    }
+};
+
+int dijkstra(std::map<char, std::vector<std::pair<char, int>>> graph, char begin, char end)
+{
+    std::priority_queue<std::pair<char, int>, std::vector<std::pair<char, int>>, myCompare> pq;//创建优先队列
+    pq.push(std::make_pair(begin, 0));//将首节点入队
+    std::set<char> seen;//创建集合表示已经检查过的节点
+    while(pq.size() > 0)
+    {
+        std::pair<char, int> vertex = pq.top();//取队首元素
+        seen.insert(vertex.first);//进行标记
+        pq.pop();//移除队列
+        for(int i = 0; i < (int)graph[vertex.first].size(); ++i)
+        {
+            if(seen.find(graph[vertex.first][i].first) == seen.end())//没有被标记
+                pq.push(std::make_pair(graph[vertex.first][i].first, graph[vertex.first][i].second + vertex.second));//入队
+        }
+        if(vertex.first == end) return vertex.second;
+    }
+    return INT_MAX;//没有找到
+}
+```
 
 # 数论
 
