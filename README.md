@@ -292,7 +292,7 @@ for (int i = 0; i < arr.size(); ++i)
 //构建线段树
 void buildTree(int a[], int tree[], int node, int start, int end)//start和end表示区间[start, end]
 {
-    if(start == end)//当start等于end时  
+    if(start = end)//当start等于end时  
     {
         tree[node] = a[start];//更新根节点
         return;//返回
@@ -494,6 +494,72 @@ int dijkstra(std::map<char, std::vector<std::pair<char, int>>> graph, char begin
     return INT_MAX;//没有找到
 }
 ```
+
+# 动态规划
+
+**动态规划：即以动态的方式，将一个问题分解成多个子问题，以求最优解**
+
+**DP: dynamic programing，以动态的方式求解问题，使程序效率提高**
+
+## 背包DP
+
+**围绕背包装取物品的价值来展开**
+
+### 01背包问题
+
+**01表示不选0和选1的两种情况，一般思路如下**
+
+```C++
+//01背包问题
+const int N = 1000, M = 1000;//N个商品，背包体积为M
+int dp[N][M];//dp[i][j]表示在前i个物品的情况下，体积为j时的最大价值
+int v[N], w[N];//体积，价值
+int main()
+{
+    int n, m;
+    cin >> n >> m;//物品数量，背包体积
+    for(int i = 1; i <= n; ++i)  cin >> v[i] >> w[i];
+    
+    for(int i = 1; i <= n; ++i)
+    {
+        for(int j = 0; j <= m; ++j)
+        {
+            dp[i][j] = dp[i - 1][j];//不选
+            if(j >= v[i])//可选的话
+                dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - v[i]] + w[i]);
+        }
+    }
+    cout << dp[n][m];
+    return 0;
+}
+```
+
+**优化：由于dp[i]的状态只与dp[i - 1]有关，将可以将第一维去掉**
+
+```C++
+const int N = 1000, M = 1000;//N个商品，背包体积为M
+int dp[M];//dp[i]表示体积是i的情况下的最大价值
+int v[N], w[N];//体积，价值
+int main()
+{
+    int n, m;
+    cin >> n >> m;
+    for(int i = 1; i <= n; ++i)  cin >> v[i] >> w[i];
+    for(int i = 1; i <= n; ++i)
+    {
+        //从后往前，此时索引前方的数组仍为上个状态的，保证数据有效
+        for(int j = m; j >= 0; --j)
+        {
+            if(j >= v[i])//可选的话
+                dp[j] = max(dp[j], dp[j - v[i]] + w[i]);
+        }
+    }
+}
+```
+
+### 完全背包问题
+
+**与01背包问题的不同是，01背包问题可以每件物品只能选一次，完全背包问题每件物品可以选多次**
 
 # 数论
 
