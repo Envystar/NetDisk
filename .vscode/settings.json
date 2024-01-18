@@ -65,7 +65,8 @@
         "span": "cpp",
         "string": "cpp",
         "stdlib.h": "c",
-        "queue": "cpp"
+        "queue": "cpp",
+        "complex": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
