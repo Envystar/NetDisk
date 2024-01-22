@@ -23,10 +23,10 @@ std::vector<int> kmpSearch(std::string str, std::string substr, int next[])
     std::vector<int> res;
     for(int i = 0, j = 0; i < str.size() - substr.size() + 1; ++i)
     {
-        if(j == (int)substr.size() - 1 && str[i] == substr[j]) //完全匹配
+        if(j == substr.size() - 1 && str[i] == substr[j]) //完全匹配
         {
             res.push_back(i - j);//记录匹配到子串起始位置
-            j = next[j - 1];    
+            j = next[j - 1]; 
             continue;
         }
         if(str[i] == substr[j]) ++j;//匹配到一个字符就++
