@@ -18,10 +18,10 @@ void prefixFunction(std::string s, int next[])
 }
 
 //字符串匹配
-std::vector<int> kmpSearch(const std::string str, const std::string substr, const int next[])
+std::vector<int> kmpSearch(std::string str, std::string substr, int next[])
 {
     std::vector<int> res;
-    for(int i = 0, j = 0; i < (int)str.size() - (int)substr.size() + 1; ++i)
+    for(int i = 0, j = 0; i < str.size() - substr.size() + 1; ++i)
     {
         if(j == (int)substr.size() - 1 && str[i] == substr[j]) //完全匹配
         {
@@ -45,8 +45,7 @@ int main()
     int n = substr.size();
     int next[n];
     prefixFunction(substr, next);
-    //for(int i = 0; i < n; ++i)  std::cout << next[i] << " ";
     std::vector<int> result = kmpSearch(str, substr, next);
-    for(int i = 0; i < (int)result.size(); ++i) std::cout << result[i] << " "; 
+    for(int i = 0; i < result.size(); ++i) std::cout << result[i] << " "; 
     return 0;
 }
