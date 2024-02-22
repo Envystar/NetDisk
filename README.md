@@ -218,7 +218,7 @@ for (int i = 0; i < arr.size(); ++i)
     arr[i] = std::lower_bound(tmp.begin(), tmp.end(), arr[i]) - tmp.begin();
 ```
 
-## 前缀和与差分·
+## 前缀和与差分
 
 ### 一维形式
 
@@ -250,7 +250,6 @@ for (int i = 0; i < arr.size(); ++i)
      }
    }
    ```
-
 2. **进行字符串匹配**
 
    ```C++
@@ -263,7 +262,7 @@ for (int i = 0; i < arr.size(); ++i)
            if(j == (int)substr.size() - 1 && str[i] == substr[j]) //完全匹配
            {
                res.push_back(i - j);//记录匹配到子串起始位置
-               j = next[j - 1];    
+               j = next[j - 1];  
                continue;
            }
            if(str[i] == substr[j]) ++j;//匹配到一个字符就++
@@ -332,7 +331,7 @@ void updateTree(int a[], int tree[], int node, int start, int end, int index, in
              updateTree(a, tree, rightNode, mid + 1, end, index, val);//向右查询
         }
         tree[node] = tree[leftNode] + tree[rightNode];//更新节点
-      
+    
     }
 }
 ```
@@ -519,7 +518,7 @@ int main()
     int n, m;
     cin >> n >> m;//物品数量，背包体积
     for(int i = 1; i <= n; ++i)  cin >> v[i] >> w[i];
-    
+  
     for(int i = 1; i <= n; ++i)
     {
         for(int j = 0; j <= m; ++j)
@@ -561,15 +560,17 @@ int main()
 
 **与01背包问题的不同是，01背包问题可以每件物品只能选一次，完全背包问题每件物品可以选多次**
 
-# 数论
+# 数学
 
-## 素数判定
+## 数论
 
-### 定义法
+### 素数判定
+
+#### 定义法
 
 **利用素数的定义进行判定**
 
-#### 定义判定
+##### 定义判定
 
 **遍历2到n-1；判断是否能被整除, 时间复杂度 $O(n^2)$ **
 
@@ -585,7 +586,7 @@ bool isPrime(int n)
 }
 ```
 
-#### 定义判定改法
+##### 定义判定改法
 
 **遍历到sqrt()就可以，由于sqrt()计算较慢，可转化为i * i <=  n; 但可能导致越界，进入死循环，改为 `i <= n / i;`, 时间复杂度为$O(nlogn)$ **
 
@@ -601,11 +602,11 @@ bool isPrime(int n)
 }
 ```
 
-### 素数筛
+#### 素数筛
 
 **`bitset <nums> name;`类似于bool数组，默认值为0，详见[std::bitset - cppreference.com](https://zh.cppreference.com/w/cpp/utility/bitset)**
 
-#### 朴素筛法
+##### 朴素筛法
 
 ```c++
 const int maxn = 1e6 + 10;
@@ -635,7 +636,7 @@ int main()
 }
 ```
 
-#### 埃氏筛法
+##### 埃氏筛法
 
 **不用再判断是否为素数，前面的素数已经判定过，并记录在bitset中,  时间复杂度 $O(nloglogn)$ **
 
@@ -656,7 +657,7 @@ for (int i = 2; i <= N / i; ++i)
 }
 ```
 
-#### 欧拉筛法
+##### 欧拉筛法
 
 **解决一个素数被两个素数筛掉，效率低的问题, 时间复杂度为 $O(n)$ **
 
@@ -685,6 +686,43 @@ for (int i = 2; i <= N; ++i)//遍历所有值
 }
 //pp即为素数的个数
 ```
+
+### 拓展欧几里得定理
+
+### 乘法逆元
+
+#### 逆元概念
+
+#### 费马小定理求逆元
+
+#### 拓展欧几里得求逆元
+
+## 组合数学
+
+### 容斥原理
+
+### 斯特林数
+
+#### 第一类斯特林数
+
+$$
+S = {n \brace m} = {n - 1 \brace m - 1} + (n - 1){n - 1 \brace m}
+$$
+
+#### 第二类斯特林数
+
+$$
+S = {n \brace m} = {n - 1 \brace m - 1} + m{n - 1 \brace m}
+$$
+
+## 多项式
+
+### 多项式乘法
+
+$$
+\exists多项式A(x), B(x), 每一项的系数表示为a_i, b_i, 有C(x) =  A(x)B(x)\\
+则有c_k = \sum_{i = 0}^{k}a_ib_{k - i}
+$$
 
 ## 快速幂
 
