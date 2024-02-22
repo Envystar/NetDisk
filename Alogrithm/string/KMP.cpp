@@ -5,7 +5,7 @@
 //求next数组
 void prefixFunction(std::string s, int next[]) 
 {
-  int n = (int)s.length();
+  int n = s.length();
   next[0] = 0;
   for (int i = 1; i < n; i++) 
   {
