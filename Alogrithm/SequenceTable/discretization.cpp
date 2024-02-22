@@ -15,7 +15,6 @@ int main()
     // for(int i = 0; i < 6; ++i)  //替换原有数组值  迭代器相减返回的是两个迭代器之间的间隔
     //     a[i] = std::lower_bound(arr.begin(), arr.end(), a[i]) - arr.begin() + 1;
     // for(int i = 0; i < 6; ++i)  std::cout << a[i] << "\t";  std::cout << "\n";
-    
     std::vector<int> arr = {1000, 500, 9999, 200, 356, 200};
     std::vector<int> tmp(arr);  // 创建副本
     std::sort(tmp.begin(), tmp.end()); //对副本排序
@@ -23,7 +22,5 @@ int main()
     for (int i = 0; i < arr.size(); ++i) //替换原有数组值
         arr[i] = std::lower_bound(tmp.begin(), tmp.end(), arr[i]) - tmp.begin();
     for(int i = 0; i < 6; ++i)  std::cout << arr[i] << "\t";  std::cout << "\n";
-
-    system("pause");
     return 0;
 }
