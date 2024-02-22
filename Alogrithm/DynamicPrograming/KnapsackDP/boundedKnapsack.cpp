@@ -32,7 +32,7 @@ int main() {
         }
     }*/
     for(int i = 1; i <= n; ++i) {
-        int dpp[N], q[N], v, w, s;
+        int dpp[M], q[M], v, w, s;
         std::cin >> v >> w >> s;
         std::copy(dp, dp + m + 1, dpp);
         for(int j = 0; j < v; ++j) {
