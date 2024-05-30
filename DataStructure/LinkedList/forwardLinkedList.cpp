@@ -6,7 +6,7 @@ public:
     ListNode(int v, ListNode* nex = nullptr) : val(v), next(nex){};//有参构造
     ListNode(){};//默认构造
     int val;
-    ListNode * next;
+    ListNode *next;
 };
 
 //添加节点

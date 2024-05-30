@@ -1,6 +1,8 @@
 #include <bits/stdc++.h>
 
 //马拉车(manacher)
+//https://www.luogu.com.cn/problem/P3805
+
 // 以第i个数为轴的最大回文 v[2 * i + 1]
 // 以第i个数和i+1个数中间为轴的最大回文 v[2 * i + 2]
 std::vector<int> manacher(const std::string& s) {
@@ -25,6 +27,8 @@ std::vector<int> manacher(const std::string& s) {
 }
 
 int main() {
+    std::ios::sync_with_stdio(false);
+    std::cin.tie(nullptr);
     std::string s;
     std::cin >> s;
     std::vector<int> v = manacher(s);

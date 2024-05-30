@@ -29,6 +29,7 @@ int query(std::string s) {
     }
     return cnt[p];
 }
+
 int main() {
     std::vector<std::string> v = {"apple", "car", "cat", "cap", "car", "banana", "a", "ab", "aab", "ab"};
     for(int i = 0; i < v.size(); ++i) {

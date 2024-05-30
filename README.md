@@ -277,6 +277,7 @@ for (int i = 0; i < arr.size(); ++i)
 
 # 栈
 
+
 # 队列
 
 # 树
@@ -331,7 +332,7 @@ void updateTree(int a[], int tree[], int node, int start, int end, int index, in
              updateTree(a, tree, rightNode, mid + 1, end, index, val);//向右查询
         }
         tree[node] = tree[leftNode] + tree[rightNode];//更新节点
-    
+  
     }
 }
 ```

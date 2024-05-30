@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 
-//01背包问题
+//分组背包问题
 const int M = 1005;//N个商品，背包体积为M
 int dp[M];//dp[i]表示体积是i的情况下的最大价值
 

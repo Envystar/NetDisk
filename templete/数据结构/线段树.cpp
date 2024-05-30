@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 using i64 = long long;
 
-//线段树
+//线段树(segmentTree)
+//单点修改，区间查询
 class SegTree {
 public:
     SegTree(const std::vector<i64>& v) : n(v.size()), tree(4 * n), add(4 * n) {
