@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 
-//prim算法最小生成树(稀疏图)
+//prim算法最小生成树(稠密图)
 //https://www.luogu.com.cn/problem/P3366
 struct node {
     int id, w;
@@ -20,7 +20,7 @@ int main() {
         v[x].push_back({y, w});
         v[y].push_back({x, w});
     }
-    std::priority_queue<node> pq;
+    std::priority_queue<node> pq; //利用优先队列不断加入最小边
     int ans = 0;
     pq.push({1, 0});
     while(!pq.empty()) {
@@ -37,7 +37,7 @@ int main() {
         } 
     }
     if(!*std::min_element(vis.begin() + 1, vis.end())) {
-        std::cout << "orz" << '\n';
+        std::cout << "orz" << '\n'; //图不连通
     } else {
         std::cout << ans << '\n';
     }

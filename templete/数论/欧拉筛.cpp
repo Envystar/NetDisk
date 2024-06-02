@@ -3,10 +3,8 @@
 int main() {
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
-    
-    int n, m;
-    std::cin >> n >> m;
-
+    int n;
+    std::cin >> n;
     std::vector<bool> isPrime(n + 1, 1);
     std::vector<int> res = {2}; //存放质数
     isPrime[0] = 0;
@@ -19,11 +17,9 @@ int main() {
             if (i % res[j] == 0) break;          
         }
     }
-    
-    for(int i = 0; i < m; ++i) {
-        int x;
-        std::cin >> x;
-        std::cout << res[x - 1] << '\n';
+    std::cout << res.size() << '\n';
+    for(auto x : res) {
+        std::cout << x << ' ';
     }
     return 0;
 }

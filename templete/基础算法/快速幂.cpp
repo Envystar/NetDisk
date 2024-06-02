@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using i64 = long long;
 
-//快速幂（Binary Exponentiation
+//快速幂（Binary Exponentiation)
 i64 qpow(i64 a, i64 b, i64 p = LLONG_MAX) { //底数，指数, 模数
     i64 res = 1;
     while(b > 0) {

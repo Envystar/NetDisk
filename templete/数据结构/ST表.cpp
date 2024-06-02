@@ -3,9 +3,9 @@
 //ST表(sparseTable)
 //https://www.luogu.com.cn/problem/P3865
 template<typename T>
-class ST {
+class ST { //下标从0开始
 public:
-    ST(const std::vector<T> &v) { //数据
+    ST(const std::vector<T> &v) { //数据 
         int k = std::__lg(v.size());
         st = std::vector<std::vector<T>>(k + 1, std::vector<T>(v.size()));
         st[0] = v;
